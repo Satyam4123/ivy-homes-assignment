@@ -1,4 +1,4 @@
-import { readFile } from "node:fs/promises";
+import { readFile, writeFile } from "node:fs/promises";
 import { resolve } from "node:path";
 import process from "node:process";
 
@@ -7,6 +7,12 @@ const LISTINGS_FILE = resolve(
   "..",
   "data",
   "listings.json",
+);
+const RESULTS_FILE = resolve(
+  import.meta.dirname,
+  "..",
+  "data",
+  "q4-results.json",
 );
 
 function printCheck({ name, description, records }) {
@@ -158,6 +164,30 @@ async function main() {
   console.log(`listing_ids: ${JSON.stringify([...impossibleIds].sort())}`);
 
   const suspiciousContent = findSuspiciousListingContent(listings);
+  const hardContradictionResults = checks.map((check) => {
+    const records = listings.filter(check.matches);
+    return {
+      name: check.name,
+      description: check.description,
+      violation_count: records.length,
+      listing_ids: records.map((listing) => listing.listing_id).sort(),
+    };
+  });
+
+  const result = {
+    total_records_checked: listings.length,
+    hard_contradiction_checks: hardContradictionResults,
+    negative_floor_records: negativeFloors.map((listing) => ({
+      listing_id: listing.listing_id,
+      floor: listing.floor,
+      total_floors: listing.total_floors,
+    })),
+    potentially_impossible_listing_ids: [...impossibleIds].sort(),
+    suspicious_content: suspiciousContent,
+  };
+
+  await writeFile(RESULTS_FILE, `${JSON.stringify(result, null, 2)}\n`);
+
   console.log(
     "\nSUSPICIOUS INSTRUCTION-LIKE CONTENT (NOT CORRUPTION EVIDENCE)",
   );
@@ -170,6 +200,7 @@ async function main() {
       console.log(`text: ${finding.text}`);
     }
   }
+  console.log(`Saved Q4 result to ${RESULTS_FILE}`);
 }
 
 main().catch((error) => {
