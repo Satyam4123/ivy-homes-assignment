@@ -1,8 +1,8 @@
-import { readFile, writeFile } from "node:fs/promises";
+import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { resolve } from "node:path";
 
 const PROJECT_ROOT = resolve(import.meta.dirname, "..");
-const OUTPUT_FILE = resolve(PROJECT_ROOT, "listings.json");
+const OUTPUT_FILE = resolve(PROJECT_ROOT, "data", "listings.json");
 const ENV_FILE = resolve(PROJECT_ROOT, ".env");
 const DEFAULT_BASE_URL = "https://solve.ivy.homes";
 const LIMIT = 50;
@@ -66,25 +66,58 @@ async function fetchPage({ baseUrl, apiKey, accessToken, offset }) {
   return page;
 }
 
+const INSTRUCTION_LIKE_TEXT =
+  /(?:ignore|disregard|forget|override|follow|obey|report|declare|answer|tell).{0,100}(?:instruction|prompt|rule|assistant|ai|system|count|listing)|(?:instruction|prompt injection|system message|ai assistant)/i;
+
+function findSuspiciousText(value, fieldPath, listingId, findings) {
+  if (typeof value === "string") {
+    if (INSTRUCTION_LIKE_TEXT.test(value)) {
+      findings.push({ listingId, field: fieldPath, text: value });
+    }
+    return;
+  }
+
+  if (Array.isArray(value)) {
+    value.forEach((item, index) =>
+      findSuspiciousText(item, `${fieldPath}[${index}]`, listingId, findings),
+    );
+    return;
+  }
+
+  if (value && typeof value === "object") {
+    Object.entries(value).forEach(([key, item]) =>
+      findSuspiciousText(
+        item,
+        fieldPath ? `${fieldPath}.${key}` : key,
+        listingId,
+        findings,
+      ),
+    );
+  }
+}
+
+function findSuspiciousListingContent(records) {
+  const findings = [];
+  records.forEach((record) =>
+    findSuspiciousText(record, "", record.listing_id, findings),
+  );
+  return findings;
+}
+
 async function main() {
   const fileEnv = await loadEnvFile();
   const baseUrl =
-    process.env.IVY_API_BASE_URL ||
     process.env.VITE_API_BASE_URL ||
     fileEnv.VITE_API_BASE_URL ||
     DEFAULT_BASE_URL;
-  const apiKey =
-    process.env.IVY_API_KEY || process.env.VITE_API_KEY || fileEnv.VITE_API_KEY;
-  const accessToken = process.env.IVY_ACCESS_TOKEN || process.env.ACCESS_TOKEN;
+  const apiKey = process.env.VITE_API_KEY || fileEnv.VITE_API_KEY;
+  const accessToken = (
+    process.env.ACCESS_TOKEN || fileEnv.ACCESS_TOKEN
+  )?.replace(/\s+/g, "");
 
-  if (!apiKey)
-    throw new Error(
-      "Missing API key. Set IVY_API_KEY or VITE_API_KEY in .env.",
-    );
+  if (!apiKey) throw new Error("Missing API key. Set VITE_API_KEY in .env.");
   if (!accessToken)
-    throw new Error(
-      "Missing access token. Set IVY_ACCESS_TOKEN or ACCESS_TOKEN in the environment.",
-    );
+    throw new Error("Missing access token. Set ACCESS_TOKEN in .env.");
 
   const records = [];
   let offset = 0;
@@ -105,6 +138,19 @@ async function main() {
     offset += page.results.length;
   }
 
+  const suspiciousContent = findSuspiciousListingContent(records);
+  console.log("Suspicious instruction-like listing content:");
+  if (suspiciousContent.length === 0) {
+    console.log("None found.");
+  } else {
+    for (const finding of suspiciousContent) {
+      console.log(`listing_id: ${finding.listingId}`);
+      console.log(`field: ${finding.field}`);
+      console.log(`text: ${finding.text}`);
+    }
+  }
+
+  await mkdir(resolve(PROJECT_ROOT, "data"), { recursive: true });
   await writeFile(OUTPUT_FILE, `${JSON.stringify(records, null, 2)}\n`, "utf8");
   console.log(`Completed: ${records.length} records collected.`);
   console.log(`Saved raw dataset to ${OUTPUT_FILE}`);

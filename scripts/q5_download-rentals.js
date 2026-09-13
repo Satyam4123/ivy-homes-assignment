@@ -85,6 +85,44 @@ function hasMoreRecords(page, offset, collectedCount) {
   );
 }
 
+const INSTRUCTION_LIKE_TEXT =
+  /(?:ignore|disregard|forget|override|follow|obey|report|declare|answer|tell).{0,100}(?:instruction|prompt|rule|assistant|ai|system|count|rental|rent|price)|(?:instruction|prompt injection|system message|ai assistant)/i;
+
+function findSuspiciousText(value, fieldPath, listingId, findings) {
+  if (typeof value === "string") {
+    if (INSTRUCTION_LIKE_TEXT.test(value)) {
+      findings.push({ listingId, field: fieldPath, text: value });
+    }
+    return;
+  }
+
+  if (Array.isArray(value)) {
+    value.forEach((item, index) =>
+      findSuspiciousText(item, `${fieldPath}[${index}]`, listingId, findings),
+    );
+    return;
+  }
+
+  if (value && typeof value === "object") {
+    Object.entries(value).forEach(([key, item]) =>
+      findSuspiciousText(
+        item,
+        fieldPath ? `${fieldPath}.${key}` : key,
+        listingId,
+        findings,
+      ),
+    );
+  }
+}
+
+function findSuspiciousRentalContent(rentals) {
+  const findings = [];
+  rentals.forEach((rental) =>
+    findSuspiciousText(rental, "", rental.listing_id, findings),
+  );
+  return findings;
+}
+
 async function main() {
   const fileEnv = await loadEnvFile();
   const baseUrl =
@@ -92,11 +130,9 @@ async function main() {
     fileEnv.VITE_API_BASE_URL ||
     DEFAULT_BASE_URL;
   const apiKey = process.env.VITE_API_KEY || fileEnv.VITE_API_KEY;
-  const accessToken =
-    process.env.ACCESS_TOKEN ||
-    fileEnv.ACCESS_TOKEN ||
-    process.env.IVY_ACCESS_TOKEN ||
-    fileEnv.IVY_ACCESS_TOKEN;
+  const accessToken = (
+    process.env.ACCESS_TOKEN || fileEnv.ACCESS_TOKEN
+  )?.replace(/\s+/g, "");
 
   if (!apiKey) {
     throw new Error("Missing API key. Set VITE_API_KEY in .env.");
@@ -145,6 +181,7 @@ async function main() {
     (total, rental) => total + rental.price,
     0,
   );
+  const suspiciousContent = findSuspiciousRentalContent(rentals);
 
   await mkdir(DATA_DIRECTORY, { recursive: true });
   await writeFile(ALL_RENTALS_FILE, `${JSON.stringify(rentals, null, 2)}\n`);
@@ -160,6 +197,16 @@ async function main() {
   console.log(`Total monthly rent for Anna Nagar: ${totalMonthlyRent}`);
   console.log(`Saved complete dataset to ${ALL_RENTALS_FILE}`);
   console.log(`Saved Anna Nagar dataset to ${ANNA_NAGAR_FILE}`);
+  console.log("Suspicious instruction-like rental content:");
+  if (suspiciousContent.length === 0) {
+    console.log("None found.");
+  } else {
+    for (const finding of suspiciousContent) {
+      console.log(`listing_id: ${finding.listingId}`);
+      console.log(`field: ${finding.field}`);
+      console.log(`text: ${finding.text}`);
+    }
+  }
 }
 
 main().catch((error) => {

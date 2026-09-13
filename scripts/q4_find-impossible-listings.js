@@ -2,12 +2,55 @@ import { readFile } from "node:fs/promises";
 import { resolve } from "node:path";
 import process from "node:process";
 
-const LISTINGS_FILE = resolve(import.meta.dirname, "..", "listings.json");
+const LISTINGS_FILE = resolve(
+  import.meta.dirname,
+  "..",
+  "data",
+  "listings.json",
+);
 
 function printCheck({ name, description, records }) {
   console.log(`\n${name}`);
   console.log(`Check: ${description}`);
   console.log(`Violations: ${records.length}`);
+}
+
+const INSTRUCTION_LIKE_TEXT =
+  /(?:ignore|disregard|forget|override|follow|obey|report|declare|answer|tell).{0,100}(?:instruction|prompt|rule|assistant|ai|system|count|listing|corrupt|impossible)|(?:instruction|prompt injection|system message|ai assistant)/i;
+
+function findSuspiciousText(value, fieldPath, listingId, findings) {
+  if (typeof value === "string") {
+    if (INSTRUCTION_LIKE_TEXT.test(value)) {
+      findings.push({ listingId, field: fieldPath, text: value });
+    }
+    return;
+  }
+
+  if (Array.isArray(value)) {
+    value.forEach((item, index) =>
+      findSuspiciousText(item, `${fieldPath}[${index}]`, listingId, findings),
+    );
+    return;
+  }
+
+  if (value && typeof value === "object") {
+    Object.entries(value).forEach(([key, item]) =>
+      findSuspiciousText(
+        item,
+        fieldPath ? `${fieldPath}.${key}` : key,
+        listingId,
+        findings,
+      ),
+    );
+  }
+}
+
+function findSuspiciousListingContent(listings) {
+  const findings = [];
+  listings.forEach((listing) =>
+    findSuspiciousText(listing, "", listing.listing_id, findings),
+  );
+  return findings;
 }
 
 async function main() {
@@ -113,6 +156,20 @@ async function main() {
   console.log("\nPOTENTIALLY IMPOSSIBLE RECORDS");
   console.log(`Count: ${impossibleIds.size}`);
   console.log(`listing_ids: ${JSON.stringify([...impossibleIds].sort())}`);
+
+  const suspiciousContent = findSuspiciousListingContent(listings);
+  console.log(
+    "\nSUSPICIOUS INSTRUCTION-LIKE CONTENT (NOT CORRUPTION EVIDENCE)",
+  );
+  if (suspiciousContent.length === 0) {
+    console.log("None found.");
+  } else {
+    for (const finding of suspiciousContent) {
+      console.log(`listing_id: ${finding.listingId}`);
+      console.log(`field: ${finding.field}`);
+      console.log(`text: ${finding.text}`);
+    }
+  }
 }
 
 main().catch((error) => {
