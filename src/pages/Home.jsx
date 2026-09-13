@@ -1,19 +1,35 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import HomeHeader from '../components/home/HomeHeader.jsx'
 import PropertyCard from '../components/home/PropertyCard.jsx'
-import { mockListings } from '../data/mockListings.js'
+import { getListings } from '../services/listingsService.js'
 
 function Home() {
+    const [listings, setListings] = useState([])
     const [query, setQuery] = useState('')
     const [bedrooms, setBedrooms] = useState('')
     const [propertyType, setPropertyType] = useState('')
+    const [isLoading, setIsLoading] = useState(true)
+    const [error, setError] = useState('')
 
-    const filteredListings = useMemo(() => mockListings.filter((listing) => {
+    useEffect(() => {
+        const controller = new AbortController()
+
+        getListings({ limit: 50, offset: 0, locality: '', bhk: '', minPrice: '', maxPrice: '', furnishing: '' }, controller.signal)
+            .then((response) => setListings(response.results || []))
+            .catch((requestError) => {
+                if (requestError.name !== 'AbortError') setError(requestError.message)
+            })
+            .finally(() => setIsLoading(false))
+
+        return () => controller.abort()
+    }, [])
+
+    const filteredListings = useMemo(() => listings.filter((listing) => {
         const matchesQuery = `${listing.apartment_name} ${listing.locality}`.toLowerCase().includes(query.toLowerCase())
         const matchesBedrooms = !bedrooms || listing.bedroom === Number(bedrooms)
         const matchesType = !propertyType || listing.property_type === propertyType
         return matchesQuery && matchesBedrooms && matchesType
-    }), [bedrooms, propertyType, query])
+    }), [bedrooms, listings, propertyType, query])
 
     return (
         <div className="min-h-screen bg-[#f6f8f7] text-slate-900">
@@ -44,7 +60,7 @@ function Home() {
                         <div><p className="text-sm font-medium text-slate-500">Curated for you</p><h2 className="mt-2 text-2xl font-semibold tracking-tight">Featured homes</h2></div>
                         <p className="text-sm text-slate-500">{filteredListings.length} homes</p>
                     </div>
-                    {filteredListings.length > 0 ? <div className="mt-7 grid gap-5 md:grid-cols-2 xl:grid-cols-4">{filteredListings.map((listing) => <PropertyCard key={listing.listing_id} listing={listing} />)}</div> : <p className="mt-7 border border-dashed border-slate-300 bg-white p-8 text-center text-sm text-slate-500">No homes match those filters.</p>}
+                    {isLoading ? <p className="mt-7 border border-slate-200 bg-white p-8 text-center text-sm text-slate-500">Loading homes...</p> : error ? <p role="alert" className="mt-7 border border-rose-200 bg-rose-50 p-8 text-center text-sm text-rose-700">Unable to load homes: {error}</p> : filteredListings.length > 0 ? <div className="mt-7 grid gap-5 md:grid-cols-2 xl:grid-cols-4">{filteredListings.map((listing) => <PropertyCard key={listing.listing_id} listing={listing} />)}</div> : <p className="mt-7 border border-dashed border-slate-300 bg-white p-8 text-center text-sm text-slate-500">No homes match those filters.</p>}
                 </section>
             </main>
         </div>
