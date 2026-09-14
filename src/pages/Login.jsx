@@ -8,9 +8,7 @@ function Login() {
                     <div className="hidden min-h-[620px] flex-col justify-between bg-teal-900 p-10 text-white lg:flex xl:p-14">
                         <div>
                             <div className="flex items-center gap-3">
-                                <span className="flex size-9 items-center justify-center border border-teal-300/50 text-lg font-semibold text-teal-100">
-                                    I
-                                </span>
+                                <img src="/ivy-homes-icon.png" alt="" className="size-9 object-contain" />
                                 <span className="text-lg font-semibold tracking-tight">Ivy Homes</span>
                             </div>
                             <div className="mt-28 max-w-sm">
@@ -32,9 +30,7 @@ function Login() {
                         <div className="w-full max-w-md">
                             <div className="mb-10 lg:hidden">
                                 <div className="flex items-center gap-3">
-                                    <span className="flex size-9 items-center justify-center border border-teal-800 text-lg font-semibold text-teal-800">
-                                        I
-                                    </span>
+                                    <img src="/ivy-homes-icon.png" alt="" className="size-9 object-contain" />
                                     <span className="text-lg font-semibold tracking-tight text-slate-900">Ivy Homes</span>
                                 </div>
                             </div>

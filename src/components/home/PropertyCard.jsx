@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom'
+
 function formatPrice(price) {
     return `₹${(price / 10000000).toFixed(2)} Cr`
 }
@@ -27,7 +29,7 @@ function PropertyCard({ listing }) {
                     <span><strong className="block text-slate-900">{listing.carpet_area}</strong> sq ft</span>
                 </div>
                 <p className="mt-4 line-clamp-2 text-sm leading-6 text-slate-500">{listing.description}</p>
-                <button type="button" className="mt-5 w-full border border-teal-800 px-4 py-2.5 text-sm font-semibold text-teal-800 transition hover:bg-teal-800 hover:text-white focus:outline-none focus:ring-4 focus:ring-teal-100">View property</button>
+                <Link to={`/listings/${encodeURIComponent(listing.listing_id)}`} className="mt-5 block w-full border border-teal-800 px-4 py-2.5 text-center text-sm font-semibold text-teal-800 transition hover:bg-teal-800 hover:text-white focus:outline-none focus:ring-4 focus:ring-teal-100">View property</Link>
             </div>
         </article>
     )

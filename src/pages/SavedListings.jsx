@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react'
 import HomeHeader from '../components/home/HomeHeader.jsx'
 import ListingCard from '../components/listings/ListingCard.jsx'
+import LoadMore from '../components/listings/LoadMore.jsx'
 import { useSavedListings } from '../context/savedListingsContext.js'
 
 function SavedListings() {
-    const { savedListings, isLoading, hasLoaded, loadSavedListings } = useSavedListings()
+    const { savedListings, isLoading, hasLoaded, hasMore, loadSavedListings, loadMoreSavedListings } = useSavedListings()
     const [error, setError] = useState('')
 
     useEffect(() => {
@@ -24,7 +25,7 @@ function SavedListings() {
                 {isLoading && <p className="border border-slate-200 bg-white p-10 text-center text-sm text-slate-500">Loading saved listings...</p>}
                 {!isLoading && error && <div role="alert" className="border border-rose-200 bg-rose-50 p-6 text-sm text-rose-700">{error}</div>}
                 {!isLoading && !error && savedListings.length === 0 && <p className="border border-dashed border-slate-300 bg-white p-10 text-center text-sm text-slate-500">You have no saved listings yet.</p>}
-                {!isLoading && !error && savedListings.length > 0 && <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">{savedListings.map((listing) => <ListingCard key={listing.listing_id} listing={listing} />)}</div>}
+                {!error && savedListings.length > 0 && <><div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">{savedListings.map((listing) => <ListingCard key={listing.listing_id} listing={listing} isSavedPage />)}</div><LoadMore label="saved listings" isLoading={isLoading} hasMore={hasMore} onLoadMore={loadMoreSavedListings} /></>}
             </main>
         </div>
     )

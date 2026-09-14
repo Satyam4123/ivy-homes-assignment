@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom'
 
 function formatRent(price) {
     if (typeof price !== 'number') return 'Rent unavailable'
-    return `₹${price.toLocaleString('en-IN')} / month`
+    return `₹${price.toLocaleString('en-IN')}/month`
 }
 
 function RentalCard({ rental }) {

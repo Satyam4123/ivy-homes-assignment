@@ -6,7 +6,12 @@ function formatPrice(price) {
     return `₹${(price / 100000).toFixed(0)} Lakh`
 }
 
-function ListingDetailHero({ listing, isSaved, isSaving, onToggleSaved }) {
+function formatRentalPrice(price) {
+    if (typeof price !== 'number') return 'Rent unavailable'
+    return `₹${price.toLocaleString('en-IN')}/month`
+}
+
+function ListingDetailHero({ listing, isRental, isSaved, isSaving, onToggleSaved }) {
     return (
         <section className="border-b border-slate-200 bg-white">
             <div className="mx-auto max-w-7xl px-5 py-8 sm:px-8 lg:px-12 lg:py-12">
@@ -17,10 +22,11 @@ function ListingDetailHero({ listing, isSaved, isSaving, onToggleSaved }) {
                         <p className="mt-3 text-base text-slate-500">{listing.locality || 'Locality unavailable'}</p>
                     </div>
                     <div className="text-left sm:text-right">
-                        <p className="text-2xl font-semibold text-slate-900">{formatPrice(listing.price)}</p>
+                        <p className="text-2xl font-semibold text-slate-900">{isRental ? formatRentalPrice(listing.price) : formatPrice(listing.price)}</p>
                         <div className="mt-3 flex flex-wrap items-center gap-2 sm:justify-end">
                             {listing.is_verified && <p className="border border-emerald-200 bg-emerald-50 px-2.5 py-1 text-xs font-semibold text-emerald-700">Verified listing</p>}
-                            <SaveListingButton isSaved={isSaved} isSaving={isSaving} onToggle={onToggleSaved} />
+                            {!isRental && <SaveListingButton isSaved={isSaved} isSaving={isSaving} onToggle={onToggleSaved} />}
+                            {listing.listing_url && <a href={listing.listing_url} target="_blank" rel="noreferrer" className="cursor-pointer border border-teal-800 px-3 py-2 text-sm font-semibold text-teal-800 transition hover:bg-teal-800 hover:text-white">View Original Listing</a>}
                         </div>
                     </div>
                 </div>

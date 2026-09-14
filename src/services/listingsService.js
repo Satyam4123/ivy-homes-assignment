@@ -32,8 +32,22 @@ export async function getListingById(listingId, signal) {
   return response.json();
 }
 
-export async function getSavedListings(signal) {
-  const response = await apiRequest("/v1/saved", { signal });
+export async function getRentalById(listingId, signal) {
+  const response = await apiRequest(
+    `/v1/rentals/${encodeURIComponent(listingId)}`,
+    { signal },
+  );
+
+  return response.json();
+}
+
+export async function getSavedListings({ limit, offset }, signal) {
+  const response = await apiRequest(
+    `/v1/saved?limit=${limit}&offset=${offset}`,
+    {
+      signal,
+    },
+  );
   return response.json();
 }
 

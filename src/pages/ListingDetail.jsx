@@ -5,10 +5,11 @@ import ListingContactCard from '../components/listings/ListingContactCard.jsx'
 import ListingDetails from '../components/listings/ListingDetails.jsx'
 import ListingDetailHero from '../components/listings/ListingDetailHero.jsx'
 import ListingOverview from '../components/listings/ListingOverview.jsx'
-import { getListingById } from '../services/listingsService.js'
+import { getListingById, getRentalById } from '../services/listingsService.js'
 import { useSavedListings } from '../context/savedListingsContext.js'
 
 function ListingDetailContent({ listingId }) {
+    const isRental = listingId?.startsWith('R')
     const [listing, setListing] = useState(null)
     const [isLoading, setIsLoading] = useState(true)
     const [error, setError] = useState('')
@@ -18,7 +19,9 @@ function ListingDetailContent({ listingId }) {
     useEffect(() => {
         const controller = new AbortController()
 
-        getListingById(listingId, controller.signal)
+        const getDetail = isRental ? getRentalById : getListingById
+
+        getDetail(listingId, controller.signal)
             .then((response) => {
                 if (!response || typeof response !== 'object' || Array.isArray(response) || !response.listing_id) {
                     throw new Error('This listing could not be loaded.')
@@ -35,14 +38,15 @@ function ListingDetailContent({ listingId }) {
             })
 
         return () => controller.abort()
-    }, [listingId])
+    }, [isRental, listingId])
 
     useEffect(() => {
+        if (isRental) return undefined
         if (hasLoaded) return undefined
         const controller = new AbortController()
         loadSavedListings(controller.signal).catch(() => { })
         return () => controller.abort()
-    }, [hasLoaded, loadSavedListings])
+    }, [hasLoaded, isRental, loadSavedListings])
 
     async function handleToggleSaved() {
         setSaveError('')
@@ -57,7 +61,7 @@ function ListingDetailContent({ listingId }) {
         {isLoading && <p className="mx-auto mt-8 max-w-7xl px-5 py-16 text-center text-sm text-slate-500 sm:px-8 lg:px-12">Loading property details...</p>}
         {!isLoading && error && <div role="alert" className="mx-auto mt-8 max-w-7xl border border-rose-200 bg-rose-50 px-5 py-6 text-sm text-rose-700 sm:px-8 lg:px-12">{error}</div>}
         {!isLoading && !error && listing && <>
-            <ListingDetailHero listing={listing} isSaved={isSaved(listing.listing_id)} isSaving={isSaving(listing.listing_id)} onToggleSaved={handleToggleSaved} />
+            <ListingDetailHero listing={listing} isRental={isRental} isSaved={isSaved(listing.listing_id)} isSaving={isSaving(listing.listing_id)} onToggleSaved={handleToggleSaved} />
             {saveError && <p role="alert" className="mx-auto max-w-7xl px-5 pt-5 text-sm text-rose-600 sm:px-8 lg:px-12">{saveError}</p>}
             <div className="mx-auto grid max-w-7xl gap-6 px-5 py-8 sm:px-8 lg:grid-cols-[1.5fr_1fr] lg:px-12 lg:py-12">
                 <div className="space-y-6"><ListingOverview listing={listing} /><ListingDetails listing={listing} /></div>
@@ -69,13 +73,14 @@ function ListingDetailContent({ listingId }) {
 
 function ListingDetail() {
     const { listingId } = useParams()
+    const isRental = listingId?.startsWith('R')
 
     return (
         <div className="min-h-screen bg-[#f6f8f7] text-slate-900">
             <HomeHeader />
             <main>
                 <div className="mx-auto max-w-7xl px-5 pt-6 sm:px-8 lg:px-12">
-                    <Link to="/listings" className="text-sm font-semibold text-teal-800 hover:text-teal-950">← Back to listings</Link>
+                    <Link to={isRental ? '/rentals' : '/listings'} className="text-sm font-semibold text-teal-800 hover:text-teal-950">← {isRental ? 'Back to Rentals' : 'Back to Listings'}</Link>
                 </div>
                 <ListingDetailContent key={listingId} listingId={listingId} />
             </main>

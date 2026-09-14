@@ -4,6 +4,7 @@ import {
   getAccessToken,
   getRefreshToken,
   clearAuthTokens,
+  refreshAccessToken as refreshAccessTokenRequest,
 } from "./apiClient.js";
 
 export async function login(credentials) {
@@ -32,44 +33,7 @@ export async function login(credentials) {
 }
 
 export async function refreshAccessToken() {
-  const refreshToken = getRefreshToken();
-
-  if (!refreshToken) {
-    throw new Error("No refresh token available.");
-  }
-
-  const response = await fetch(
-    new URL("/auth/refresh", import.meta.env.VITE_API_BASE_URL),
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${refreshToken}`,
-        ...(import.meta.env.VITE_API_KEY
-          ? { "x-api-key": import.meta.env.VITE_API_KEY }
-          : {}),
-      },
-      body: JSON.stringify({
-        refresh_token: refreshToken,
-      }),
-    },
-  );
-
-  if (!response.ok) {
-    clearAuthTokens();
-    throw new Error("Your session has expired. Please sign in again.");
-  }
-
-  const data = await response.json();
-
-  if (!data.access_token) {
-    clearAuthTokens();
-    throw new Error("Unable to refresh your session.");
-  }
-
-  setAuthTokens(data.access_token, data.refresh_token);
-
-  return data.access_token;
+  return refreshAccessTokenRequest();
 }
 
 export async function getCurrentUser() {

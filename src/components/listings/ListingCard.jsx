@@ -8,7 +8,7 @@ function formatPrice(price) {
     return `₹${(price / 100000).toFixed(0)} Lakh`
 }
 
-function ListingCard({ listing }) {
+function ListingCard({ listing, isSavedPage = false }) {
     const { isSaved, isSaving, toggleSaved } = useSavedListings()
     const [saveError, setSaveError] = useState('')
 
@@ -30,7 +30,7 @@ function ListingCard({ listing }) {
                 </div>
                 <div className="flex items-start gap-2">
                     {listing.is_verified && <span className="shrink-0 border border-emerald-200 bg-emerald-50 px-2 py-1 text-[11px] font-semibold text-emerald-700">Verified</span>}
-                    <SaveListingButton isSaved={isSaved(listing.listing_id)} isSaving={isSaving(listing.listing_id)} onToggle={handleToggleSaved} />
+                    <SaveListingButton isSaved={isSaved(listing.listing_id)} isSaving={isSaving(listing.listing_id)} onToggle={handleToggleSaved} savedLabel={isSavedPage ? 'Remove' : 'Saved'} savingLabel={isSavedPage ? 'Removing...' : 'Saving...'} />
                 </div>
             </div>
             <p className="mt-5 text-xl font-semibold text-slate-900">{formatPrice(listing.price)}</p>

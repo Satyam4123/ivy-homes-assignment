@@ -5,6 +5,7 @@ import ListingDetail from './pages/ListingDetail.jsx'
 import SavedListings from './pages/SavedListings.jsx'
 import Rentals from './pages/Rentals.jsx'
 import Projects from './pages/Projects.jsx'
+import ProjectDetail from './pages/ProjectDetail.jsx'
 import Insights from './pages/Insights.jsx'
 import ProtectedRoute from './components/auth/ProtectedRoute.jsx'
 import { SavedListingsProvider } from './context/SavedListingsContext.jsx'
@@ -29,9 +30,10 @@ function App() {
         <Route path="/home" element={<Home />} />
         <Route path="/listings" element={<Listings />} />
         <Route path="/listings/:listingId" element={<ListingDetail />} />
-        <Route path="/saved-listings" element={<SavedListings />} />
+        <Route path="/saved" element={<SavedListings />} />
         <Route path="/rentals" element={<Rentals />} />
         <Route path="/projects" element={<Projects />} />
+        <Route path="/projects/:projectId" element={<ProjectDetail />} />
         <Route path="/insights" element={<Insights />} />
         <Route path="/" element={<Navigate to="/listings" replace />} />
       </Route>
