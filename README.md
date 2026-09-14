@@ -173,6 +173,5 @@ AI tools and development/API tools were used throughout the development and inve
 - **ChatGPT:** Used for assignment interpretation, API investigation and reasoning, frontend debugging and review, calculation review, findings review, and implementation planning.
 - **Claude:** Assisted specifically with the Q9 fake/suspicious listing investigation by helping analyze patterns and formulate a hypothesis. The hypothesis was then tested against the dataset and the final IDs were independently verified.
 - **Copilot:** Used for repository code exploration, implementation, debugging, refactoring, UI fixes, cleanup, and README assistance.
-- **Postman:** Used separately as a development/API tool for direct API exploration and reproduction of documented-versus-actual API behavior.
 
 AI-generated suggestions and code were reviewed and tested. API behavior, calculations, evidence, application functionality, and final repository changes were verified against the running API, local data, and the assignment requirements.
