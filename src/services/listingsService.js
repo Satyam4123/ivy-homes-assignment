@@ -1,7 +1,7 @@
 import { apiRequest } from "./apiClient.js";
 
 export async function getListings(
-  { limit, offset, locality, bhk, minPrice, maxPrice, furnishing },
+  { limit, offset, locality, bhk, minPrice, maxPrice, furnishing, sortBy },
   signal,
 ) {
   const params = new URLSearchParams({
@@ -14,6 +14,7 @@ export async function getListings(
   if (minPrice) params.set("min_price", minPrice);
   if (maxPrice) params.set("max_price", maxPrice);
   if (furnishing) params.set("furnishing", furnishing);
+  if (sortBy) params.set("sort_by", sortBy);
 
   const response = await apiRequest(`/v1/listings?${params.toString()}`, {
     signal,

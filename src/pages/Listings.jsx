@@ -6,7 +6,7 @@ import ListingPagination from '../components/listings/ListingPagination.jsx'
 import { getListings } from '../services/listingsService.js'
 
 const LIMIT = 20
-const emptyFilters = { locality: '', bhk: '', minPrice: '', maxPrice: '', furnishing: '' }
+const emptyFilters = { locality: '', bhk: '', minPrice: '', maxPrice: '', furnishing: '', sortBy: '' }
 
 function Listings() {
     const [filters, setFilters] = useState(emptyFilters)

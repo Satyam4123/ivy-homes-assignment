@@ -4,29 +4,391 @@
     "name": "Satyan Shukla",
     "email": "satyam.20231094@mnnit.ac.in",
     "repo_url": "https://github.com/Satyam4123/ivy-homes-assignment.git",
-    "demo_url": ""
+    "demo_url": "https://ivy-homes-assignment-seven.vercel.app/"
   },
   "answers": {
-    "total_listing_records": 0,
-    "unique_properties": 0,
-    "active_listings": 0,
-    "corrupt_listing_ids": [],
-    "total_monthly_rent": 0,
-    "avg_price_per_sqft_2bhk": 0.0,
-    "costliest_project": { "project_id": "", "price_max_inr": 0 },
-    "listings_last_7_days": 0,
-    "fake_listing_ids": [],
-    "projects_with_wrong_listing_count": 0
+    "total_listing_records": 4100,
+    "unique_properties": 4093,
+    "active_listings": 3233,
+    "corrupt_listing_ids": [
+    "100-4000050",
+    "100-4000189",
+    "100-4000202",
+    "100-4000397",
+    "100-4000449",
+    "100-4000491",
+    "100-4000527",
+    "100-4000738",
+    "100-4001011",
+    "100-4001039",
+    "100-4001096",
+    "100-4001182",
+    "100-4001240",
+    "100-4001475",
+    "100-4001641",
+    "100-4001777",
+    "100-4001784",
+    "100-4001954",
+    "100-4002039",
+    "100-4002096",
+    "100-4002315",
+    "100-4002366",
+    "100-4002403",
+    "100-4002484",
+    "100-4002610",
+    "100-4002961",
+    "100-4003081",
+    "100-4003733",
+    "100-4003820",
+    "100-4003823",
+    "100-4003889",
+    "100-4003927",
+    "100-4003952",
+    "100-4003981",
+    "100-4003995",
+    "100-4004094",
+    "DWE-4000022",
+    "DWE-4000328",
+    "DWE-4000412",
+    "DWE-4000719",
+    "DWE-4001169",
+    "DWE-4001442",
+    "DWE-4001592",
+    "DWE-4001655",
+    "DWE-4001658",
+    "DWE-4001781",
+    "DWE-4001907",
+    "DWE-4002042",
+    "DWE-4002122",
+    "DWE-4002151",
+    "DWE-4002247",
+    "DWE-4002322",
+    "DWE-4002712",
+    "DWE-4002772",
+    "DWE-4003067",
+    "DWE-4003342",
+    "DWE-4003489",
+    "DWE-4003556",
+    "DWE-4003831",
+    "DWE-4004083",
+    "MAG-4000052",
+    "MAG-4000188",
+    "MAG-4000243",
+    "MAG-4000253",
+    "MAG-4000283",
+    "MAG-4000515",
+    "MAG-4000576",
+    "MAG-4000686",
+    "MAG-4000723",
+    "MAG-4000846",
+    "MAG-4000910",
+    "MAG-4001094",
+    "MAG-4001215",
+    "MAG-4001317",
+    "MAG-4001348",
+    "MAG-4001611",
+    "MAG-4001889",
+    "MAG-4001981",
+    "MAG-4002041",
+    "MAG-4002619",
+    "MAG-4002729",
+    "MAG-4002776",
+    "MAG-4002920",
+    "MAG-4002925",
+    "MAG-4002927",
+    "MAG-4003038",
+    "MAG-4003060",
+    "MAG-4003100",
+    "MAG-4003461",
+    "MAG-4003513",
+    "MAG-4003586",
+    "MAG-4003593",
+    "MAG-4003619",
+    "MAG-4003873",
+    "MAG-4003904",
+    "SQU-4000047",
+    "SQU-4000308",
+    "SQU-4000526",
+    "SQU-4000583",
+    "SQU-4000744",
+    "SQU-4000832",
+    "SQU-4000844",
+    "SQU-4000897",
+    "SQU-4001084",
+    "SQU-4001225",
+    "SQU-4001266",
+    "SQU-4001938",
+    "SQU-4002055",
+    "SQU-4002060",
+    "SQU-4002088",
+    "SQU-4002297",
+    "SQU-4002405",
+    "SQU-4002429",
+    "SQU-4002439",
+    "SQU-4002450",
+    "SQU-4002496",
+    "SQU-4002651",
+    "SQU-4002903",
+    "SQU-4003003",
+    "SQU-4003304",
+    "SQU-4003329",
+    "SQU-4003394",
+    "SQU-4003569",
+    "SQU-4003854",
+    "SQU-4003951",
+    "SQU-4004023",
+    "ZER-4000011",
+    "ZER-4000389",
+    "ZER-4000418",
+    "ZER-4000464",
+    "ZER-4000653",
+    "ZER-4000806",
+    "ZER-4000810",
+    "ZER-4000926",
+    "ZER-4000964",
+    "ZER-4000983",
+    "ZER-4001091",
+    "ZER-4001161",
+    "ZER-4001457",
+    "ZER-4001738",
+    "ZER-4001798",
+    "ZER-4001968",
+    "ZER-4002075",
+    "ZER-4002260",
+    "ZER-4002537",
+    "ZER-4002586",
+    "ZER-4002662",
+    "ZER-4002931",
+    "ZER-4003050",
+    "ZER-4003119",
+    "ZER-4003391",
+    "ZER-4003553",
+    "ZER-4003564",
+    "ZER-4003707",
+    "ZER-4003841",
+    "ZER-4004051"
+    ],
+    "total_monthly_rent": 5330500,
+    "avg_price_per_sqft_2bhk": 16040.71,
+    "costliest_project": { 
+        "project_id": "P40231", 
+        "price_max_inr": 998000000
+    },
+    "listings_last_7_days": 122,
+    "fake_listing_ids": [
+    "100-4000342",
+    "100-4000711",
+    "100-4001389",
+    "100-4001474",
+    "100-4001741",
+    "100-4001895",
+    "100-4002380",
+    "100-4002897",
+    "100-4002933",
+    "100-4003175",
+    "DWE-4000107",
+    "DWE-4001506",
+    "DWE-4001931",
+    "DWE-4002164",
+    "DWE-4002443",
+    "DWE-4002600",
+    "DWE-4003537",
+    "DWE-4003972",
+    "MAG-4000373",
+    "MAG-4002533",
+    "MAG-4003071",
+    "MAG-4003093",
+    "MAG-4003738",
+    "SQU-4000104",
+    "SQU-4000109",
+    "SQU-4000265",
+    "SQU-4001233",
+    "SQU-4002728",
+    "SQU-4002904",
+    "ZER-4001595",
+    "ZER-4001598",
+    "ZER-4001714",
+    "ZER-4001962",
+    "ZER-4002312"
+    ],
+    "projects_with_wrong_listing_count": 336
   },
   "findings": [
-    {
-      "endpoint": "",
-      "category": "",
-      "documented": "",
-      "actual": "",
-      "how_found": "",
-      "impact": "",
-      "evidence": []
-    }
+  {
+    "endpoint": "*",
+    "category": "auth",
+    "documented": "The API key is appended as an api_key query parameter.",
+    "actual": "Authenticated API requests use the x-api-key request header.",
+    "how_found": "Called the API using the documented query-parameter authentication and compared it with the working authenticated request format.",
+    "impact": "Following the documented authentication method does not match the running API.",
+    "evidence": [
+        "evidence/auth-api-key-header.png"
+    ]
+  },
+  {
+  "endpoint": "/auth/login",
+  "category": "auth",
+  "documented": "Tokens are valid for 24 hours. There is no refresh token; obtain a new token by logging in again.",
+  "actual": "Access tokens expire after 900 seconds (15 minutes), and the authentication flow provides a refresh token with a refresh endpoint.",
+  "how_found": "Called /auth/login and inspected the returned authentication fields and access-token expiry; decoded the access token timestamps and verified exp - iat = 900 seconds. Tested the documented token lifetime and refresh flow.",
+  "impact": "Clients following the documentation may assume a 24-hour access-token lifetime and unnecessarily require users to log in again instead of using the available refresh-token flow.",
+  "evidence": [
+    "evidence/auth-token-refresh-900s.png"
   ]
+  },
+  {
+  "endpoint": "/auth/logout",
+  "category": "auth",
+  "documented": "Invalidate the current token.",
+  "actual": "Logout does not invalidate the token server-side; the API states that tokens are stateless and instructs the client to discard them.",
+  "how_found": "Authenticated with a valid token, called POST /auth/logout, and inspected the response stating that tokens are stateless and should be discarded client side.",
+  "impact": "Clients may incorrectly assume that a logged-out token is immediately invalid and stop treating it as a potentially usable credential until its expiry.",
+  "evidence": [
+    "evidence/auth-logout-stateless.png"
+  ]
+  },
+  {
+  "endpoint": "*",
+  "category": "pagination",
+  "documented": "Collection endpoints use page and limit parameters. Page defaults to 1 and limit defaults to 20.",
+  "actual": "Listings and rentals use limit and offset instead. Both are optional, with limit defaulting to 20 and offset defaulting to 0. The documented page parameter is ignored.",
+  "how_found": "Tested pagination parameters on the listings and rentals endpoints, comparing responses when changing page versus offset.",
+  "impact": "Clients implementing the documented page-based pagination can repeatedly receive the same records because page is ignored.",
+  "evidence": [
+    "evidence/pagination-offset-vs-page.png"
+  ]
+  },
+  {
+  "endpoint": "*",
+  "category": "pagination",
+  "documented": "The maximum limit is 200.",
+  "actual": "The API caps limit at 50; requesting limit=51 still returns a page size of 50.",
+  "how_found": "Requested limit=51 and inspected the returned page size/count.",
+  "impact": "Clients cannot retrieve 200 records per request as documented and must make more requests to retrieve the full dataset.",
+  "evidence": [
+    "evidence/pagination-limit-cap-50.png"
+  ] 
+  },
+  {
+  "endpoint": "/v1/listings",
+  "category": "completeness",
+  "documented": "The response includes an exact total count of records matching the filters.",
+  "actual": "The API initially reported total=3867, but traversing the listings using limit and offset until has_more=false retrieved 4100 records.",
+  "how_found": "Collected the complete /v1/listings dataset using limit and offset and compared the number of retrieved records with the total reported by the API.",
+  "impact": "Clients relying on the documented total may stop pagination early and miss 233 retrievable listing records.",
+  "evidence": [
+    "evidence/listings-total-vs-retrieved.png"
+  ]
+  },
+  {
+  "endpoint": "/v1/listings",
+  "category": "completeness",
+  "documented": "The listings endpoint returns active sale listings only; inactive, expired, and withdrawn listings are excluded.",
+  "actual": "The endpoint returns listings with is_live=false. Across the complete retrievable dataset, 867 of 4100 records have is_live=false.",
+  "how_found": "Collected all retrievable listing records and counted records where is_live=false.",
+  "impact": "Clients relying on the documentation may incorrectly assume every returned record is an active listing.",
+  "evidence": [
+    "evidence/is-false.png"
+  ]
+  },
+  {
+  "endpoint": "/v1/listings",
+  "category": "sorting",
+  "documented": "The `order` parameter accepts `asc` or `desc` and controls the sort direction.",
+  "actual": "The `order` parameter accepts `asc`/`desc`, but `order=desc` does not correctly reverse the ordering; the results remain ascending when used with a working `sort_by`.",
+  "how_found": "Compared /v1/listings results using the same sort_by value with order=asc and order=desc and inspected the returned ordering.",
+  "impact": "Clients cannot reliably request descending results as documented.",
+  "evidence": [
+    "evidence/listings-order-desc-broken.png"
+  ]
+  },
+  {
+  "endpoint": "/v1/listings",
+  "category": "filters",
+  "documented": "The locality filter performs an exact lowercase match.",
+  "actual": "The locality filter is case-insensitive; uppercase locality values also match the corresponding listings.",
+  "how_found": "Queried the listings endpoint using the same locality with different letter casing and observed that uppercase input returned matching listings.",
+  "impact": "The documentation incorrectly describes the casing requirement for clients implementing the locality filter.",
+  "evidence": [
+    "evidence/listings-locality-case-insensitive.png"
+  ]
+  },
+  {
+  "endpoint": "/v1/listings",
+  "category": "sorting",
+  "documented": "sort_by supports price, carpet_area, posted_at, and bedroom.",
+  "actual": "posted_at is accepted as a sortable field, but the returned listings are not ordered by posted_at.",
+  "how_found": "Requested listings with sort_by=posted_at and inspected the posted_at timestamps in the returned results; the timestamps were not monotonically ordered.",
+  "impact": "Clients cannot reliably use posted_at sorting as documented.",
+  "evidence": [
+    "evidence/listings-sort-posted-at-broken.png"
+  ]
+  },
+  {
+  "endpoint": "/v1/listings/{listing_id}/similar",
+  "category": "missing_endpoint",
+  "documented": "Returns similar listings for the specified listing.",
+  "actual": "The documented endpoint returns HTTP 404.",
+  "how_found": "Called the documented endpoint using a valid listing_id from the listings dataset.",
+  "impact": "Clients cannot use the documented similar-listings functionality.",
+  "evidence": [
+    "evidence/listings-similar-404.png"
+  ]
+  },
+  {
+  "endpoint": "/v1/projects",
+  "category": "units",
+  "documented": "price_min and price_max are in integer rupees (INR).",
+  "actual": "price_min and price_max are returned as decimal compact values rather than integer rupee amounts. For example, P40001 has price_min=66.1 and price_max=1.95.",
+  "how_found": "Fetched the complete projects dataset and inspected the price_min and price_max fields across returned projects.",
+  "impact": "Clients cannot interpret these values as integer INR amounts as documented; blindly treating them as rupees produces incorrect prices and can corrupt calculations such as finding the costliest project.",
+  "evidence": [
+    "evidence/projects-price-min-max-decimal.png"
+  ]
+  },
+  {
+  "endpoint": "/v1/favourites",
+  "category": "missing_endpoint",
+  "documented": "GET /v1/favourites, POST /v1/favourites, and DELETE /v1/favourites/{id} are documented as available endpoints.",
+  "actual": "The documented favourites endpoint is not available on the running API; requests to /v1/favourites return 404 Not Found.",
+  "how_found": "Sent requests to the documented /v1/favourites endpoint and received 404 Not Found.",
+  "impact": "Clients following the documentation cannot use the documented favourites functionality because the endpoint is unavailable on the running API.",
+  "evidence": [
+    "evidence/favourites-404.png"
+  ]
+  },
+  {
+  "endpoint": "/v1/saved",
+  "category": "undocumented_endpoint",
+  "documented": "The API reference does not document a /v1/saved endpoint or saved-listing operations.",
+  "actual": "The running API exposes /v1/saved operations. Saved listings can be listed, added, and removed successfully.",
+  "how_found": "Inspected the available API routes and successfully used the /v1/saved endpoint, including saving and removing a listing.",
+  "impact": "Clients cannot discover or integrate the saved-listing functionality from the provided API documentation.",
+  "evidence": [
+    "evidence/saved-undocumented.png"
+  ]
+  },
+  {
+  "endpoint": "/v1/analytics/summary",
+  "category": "missing_endpoint",
+  "documented": "GET /v1/analytics/summary is documented as an endpoint returning precomputed aggregate statistics.",
+  "actual": "The documented analytics endpoint is not available on the running API; requests to /v1/analytics/summary return 404 Not Found.",
+  "how_found": "Sent a request to the documented /v1/analytics/summary endpoint and received 404 Not Found.",
+  "impact": "Clients following the documentation cannot retrieve the documented analytics summary from the running API.",
+  "evidence": [
+    "evidence/analytics-summary-404.png"
+  ]
+  },
+  {
+  "endpoint": "/v1/listings/{listing_id}",
+  "category": "data_quality",
+  "documented": "Each listing represents a physical property and the listing data is described as valid listing information.",
+  "actual": "Some returned listings contain physically impossible property data, such as floor values greater than total_floors or non-positive total_floors.",
+  "how_found": "Fetched the complete listings dataset and validated physical-property fields including floor, total_floors, carpet_area, and super_built_up_area. Found listings where floor > total_floors, total_floors <= 0, and carpet_area > super_built_up_area.",
+  "impact": "Clients performing calculations or displaying property information can produce incorrect results or invalid property representations unless these records are explicitly validated.",
+  "evidence": [
+    "evidence/listings-data-quality.png"
+  ]
+  }
+]
 }

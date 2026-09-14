@@ -1,7 +1,7 @@
 function ListingFilters({ filters, onChange, onSubmit, onClear, isLoading }) {
     return (
         <form onSubmit={onSubmit} className="border border-slate-200 bg-white p-5">
-            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-5">
+            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-6">
                 <div className="lg:col-span-1">
                     <label htmlFor="locality" className="mb-2 block text-xs font-semibold uppercase tracking-wide text-slate-500">Locality</label>
                     <input id="locality" value={filters.locality} onChange={(event) => onChange('locality', event.target.value)} placeholder="e.g. Whitefield" className="w-full border border-slate-300 px-3 py-2.5 text-sm outline-none focus:border-teal-700 focus:ring-4 focus:ring-teal-100" />
@@ -24,6 +24,16 @@ function ListingFilters({ filters, onChange, onSubmit, onClear, isLoading }) {
                     <label htmlFor="furnishing" className="mb-2 block text-xs font-semibold uppercase tracking-wide text-slate-500">Furnishing</label>
                     <select id="furnishing" value={filters.furnishing} onChange={(event) => onChange('furnishing', event.target.value)} className="w-full border border-slate-300 bg-white px-3 py-2.5 text-sm capitalize outline-none focus:border-teal-700 focus:ring-4 focus:ring-teal-100">
                         <option value="">Any furnishing</option><option value="unfurnished">Unfurnished</option><option value="semi-furnished">Semi-furnished</option><option value="fully-furnished">Fully-furnished</option>
+                    </select>
+                </div>
+                <div>
+                    <label htmlFor="sort-by" className="mb-2 block text-xs font-semibold uppercase tracking-wide text-slate-500">Sort By</label>
+                    <select id="sort-by" value={filters.sortBy} onChange={(event) => onChange('sortBy', event.target.value)} className="w-full border border-slate-300 bg-white px-3 py-2.5 text-sm outline-none focus:border-teal-700 focus:ring-4 focus:ring-teal-100">
+                        <option value="">Default</option>
+                        <option value="price">Price</option>
+                        <option value="carpet_area">Carpet Area</option>
+                        <option value="posted_at">Posted At</option>
+                        <option value="bedroom">Bedroom</option>
                     </select>
                 </div>
             </div>
